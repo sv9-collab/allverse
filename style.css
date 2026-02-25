@@ -1,0 +1,498 @@
+:root {
+    --bg-color: #020408;
+    --card-bg: rgba(13, 17, 23, 0.6);
+    --accent-color: #00f2ff;
+    --accent-glow: rgba(0, 242, 255, 0.4);
+    --secondary-color: #7000ff;
+    --text-primary: #ffffff;
+    --text-secondary: #8b949e;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --font-main: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: perspective(1000px) rotateX(10deg);
+    transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.visible .container {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.identity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-glow);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+h1::before {
+    content: "ORB OS";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    -webkit-text-fill-color: #ff00c1;
+    z-index: -1;
+    opacity: 0;
+}
+
+h1:hover::before {
+    animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    opacity: 0.5;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+#god-badge {
+    font-size: 0.6rem;
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--accent-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-left: 1rem;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+#uptime-container {
+    display: flex;
+    align-items: baseline;
+    color: var(--text-secondary);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+#ms-counter {
+    color: var(--accent-color);
+    width: 40px;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(0, 242, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card-title {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-value {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-unit {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-left: 0.25rem;
+    font-weight: 400;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    width: 0%;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Scanline Overlay */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 1000;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 40px rgba(0, 242, 255, 0.15), inset 0 0 30px rgba(0, 242, 255, 0.05);
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: 0.5s;
+}
+
+.card:hover::after {
+    left: 100%;
+}
+
+.terminal {
+    grid-column: 1 / -1;
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--accent-color);
+    font-family: 'Fira Code', monospace;
+    padding: 2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    min-height: 300px;
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    box-shadow: inset 0 0 30px rgba(0, 242, 255, 0.1);
+    position: relative;
+    overflow-y: auto;
+}
+
+.terminal::-webkit-scrollbar {
+    width: 4px;
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+#terminal-content {
+    opacity: 0.9;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.stat-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px;
+    background: linear-gradient(to bottom, #fff, var(--text-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.service-item {
+    transition: all 0.3s ease;
+    padding: 1.2rem 0;
+}
+
+.service-item:hover {
+    padding-left: 10px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.badge-active {
+    animation: neon-pulse 1.5s infinite alternate;
+}
+
+@keyframes neon-pulse {
+    from {
+        box-shadow: 0 0 5px var(--accent-glow);
+    }
+
+    to {
+        box-shadow: 0 0 15px var(--accent-glow);
+    }
+}
+
+/* Authentication Overlay (Restored) */
+#login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #0a0e14 0%, #05070a 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.auth-card {
+    text-align: center;
+    padding: 3.5rem;
+    background: rgba(13, 17, 23, 0.4);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+    max-width: 450px;
+    width: 90%;
+}
+
+.scanner-ring {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scanner-ring::after {
+    content: '';
+    width: 85%;
+    height: 85%;
+    border: 3px solid var(--accent-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    animation: rotate 1.5s linear infinite;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.auth-logo {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+#auth-status {
+    font-size: 0.7rem;
+    color: var(--accent-color);
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    font-family: 'Fira Code', monospace;
+    opacity: 0.8;
+}
+
+#auth-user {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+}
+
+#auth-btn {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+}
+
+#auth-btn:hover {
+    background: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 40px var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.hidden-auth {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    pointer-events: none;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--accent-color);
+    vertical-align: middle;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.service-list {
+    list-style: none;
+}
+
+.badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}

@@ -1,0 +1,41 @@
+{
+    "name": "ubuntu2-orb-local",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Orb OS Control Center",
+    "main": "server.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "start": "node server.js",
+        "mcp": "node allverse-mcp.js"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@modelcontextprotocol/sdk": "^1.27.1",
+        "@mui/icons-material": "^7.3.8",
+        "@mui/material": "^7.3.8",
+        "@react-three/drei": "^10.7.7",
+        "@react-three/fiber": "^9.5.0",
+        "clsx": "^2.1.1",
+        "express": "^4.18.2",
+        "framer-motion": "^12.34.3",
+        "leaflet": "^1.9.4",
+        "lucide-react": "^0.575.0",
+        "mysql2": "^3.6.0",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
+        "react-leaflet": "^5.0.0",
+        "react-webcam": "^7.2.0",
+        "tailwind-merge": "^3.5.0",
+        "three": "^0.183.1",
+        "zod": "^4.3.6"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.4.4",
+        "@vitejs/plugin-react": "^5.1.4",
+        "vite": "^5.0.0"
+    }
+}
